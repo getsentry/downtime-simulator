@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Downtime simulator
 
-## Getting Started
+A simple app for creating a temporary downtime based on the host, built with Next.JS and KV storage.
 
-First, run the development server:
+## Testing locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Update your `/private/etc/hosts` to include some test hosts:
+
+```
+127.0.0.1 downtime-simulator.local
+127.0.0.1 test1.downtime-simulator.local
+127.0.0.1 test2.downtime-simulator.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set the root hostname and test hosts to your `.env.development.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+DOWNTIME_SIMULATOR_ROOT_HOSTNAME=downtime-simulator.local
+NEXT_PUBLIC_DOWNTIME_SIMULATOR_HOSTS=test1.downtime-simulator.local,test2.downtime-simulator.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Then you can run different instances of Next.JS for you to test.
 
-## Learn More
+To use the simulator:
 
-To learn more about Next.js, take a look at the following resources:
+```
+DIR=.next-1 npm run dev -- -H downtime-simulator.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To test a subdomain:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+DIR=.next-2 npm run dev -- -H test1.downtime-simulator.local
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The `DIR` env variable is required to run multiple instances of Next.JS locally, to avoid build conflicts.
