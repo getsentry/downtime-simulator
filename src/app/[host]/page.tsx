@@ -4,6 +4,7 @@ import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
 import * as Sentry from "@sentry/nextjs";
 import { headers } from "next/headers";
+import { PrismaClient } from "@prisma/client/edge";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -24,7 +25,10 @@ const Page = async ({ params: { host } }: { params: { host: string } }) => {
         recordResponse: true,
       },
       async () => {
-        throw new Error("Simulated 500 error.");
+        const prisma = new PrismaClient();
+        const posts = await prisma.post.findMany();
+
+        return posts;
       }
     );
   }
