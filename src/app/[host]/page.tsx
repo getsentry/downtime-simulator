@@ -2,6 +2,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { kv } from "@vercel/kv";
 import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
+import * as Sentry from "@sentry/nextjs";
+import { headers } from "next/headers";
 
 export const revalidate = 0;
 
@@ -12,8 +14,22 @@ const Page = async ({ params: { host } }: { params: { host: string } }) => {
     notFound();
   }
 
+  async function queryPosts() {
+    "use server";
+    return await Sentry.withServerActionInstrumentation(
+      "queryPosts",
+      {
+        headers: headers(),
+        recordResponse: true,
+      },
+      async () => {
+        throw new Error("Simulated 500 error.");
+      }
+    );
+  }
+
   if (hostStatus === 500) {
-    throw new Error("Simulated 500 error.");
+    await queryPosts();
   }
 
   return (
