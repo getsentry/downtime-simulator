@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-no-store";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",

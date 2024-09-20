@@ -6,9 +6,6 @@ import * as Sentry from "@sentry/nextjs";
 import { headers } from "next/headers";
 import { PrismaClient } from "@prisma/client/edge";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
-
 const Page = async ({ params: { host } }: { params: { host: string } }) => {
   const hostStatus: number | null = await kv.get(`host-status:${host}`);
 
