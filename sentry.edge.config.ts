@@ -15,6 +15,7 @@ Sentry.init({
   debug: true,
 
   spotlight: process.env.NODE_ENV === "development",
+
   // force all spans to get recorded
   tracesSampler: (samplingContext) => {
     return 1;
