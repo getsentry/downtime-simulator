@@ -34,6 +34,8 @@ const Page = async ({ params: { host } }: { params: { host: string } }) => {
     await queryPosts();
   }
 
+  await Sentry.flush();
+
   return (
     <div className="container max-w-lg p-12">
       <Alert>
