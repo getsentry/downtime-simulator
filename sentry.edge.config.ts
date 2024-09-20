@@ -13,4 +13,10 @@ Sentry.init({
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: true,
+
+  spotlight: process.env.NODE_ENV === "development",
+  // force all spans to get recorded
+  tracesSampler: (samplingContext) => {
+    return 1;
+  },
 });

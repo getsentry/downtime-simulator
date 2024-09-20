@@ -14,5 +14,8 @@ Sentry.init({
   debug: true,
 
   // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
-  // spotlight: process.env.NODE_ENV === 'development',
+  // force all transactions to get recorded
+  tracesSampler: (samplingContext) => {
+    return 1;
+  },
 });
