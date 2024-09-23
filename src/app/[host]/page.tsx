@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
 import * as Sentry from "@sentry/nextjs";
 import { headers } from "next/headers";
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 
 const Page = async ({ params: { host } }: { params: { host: string } }) => {
   const hostStatus: number | null = await kv.get(`host-status:${host}`);
