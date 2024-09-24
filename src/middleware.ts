@@ -12,11 +12,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // log incoming request details for troubleshooting
   const body = await request.text();
   console.log("received with request URL", request.url);
   console.log("received with request method:", request.method);
   console.log("received with request body:", body);
-  console.log("received with request headers:", request.headers);
+  console.log(
+    "received with request headers:",
+    JSON.stringify(Object.fromEntries(request.headers))
+  );
 
   return NextResponse.rewrite(new URL(`/${url.hostname}`, request.url), {
     request: request,
