@@ -12,7 +12,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return NextResponse.rewrite(new URL(`/${url.hostname}`, request.url));
+  return NextResponse.rewrite(new URL(`/${url.hostname}`, request.url), {
+    request: request,
+  });
 }
 
 // Only match root page
