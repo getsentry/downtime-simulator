@@ -2,7 +2,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { kv } from "@vercel/kv";
 import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
-import * as Sentry from "@sentry/nextjs";
 import { PrismaClient } from "@prisma/client";
 
 async function queryPosts() {
@@ -23,8 +22,6 @@ const Page = async ({ params }: { params: Promise<{ host: string }> }) => {
   if (hostStatus === 500) {
     await queryPosts();
   }
-
-  await Sentry.flush();
 
   return (
     <div className="container max-w-lg p-12">
