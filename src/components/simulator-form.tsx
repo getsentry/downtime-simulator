@@ -26,28 +26,26 @@ import {
 import { createDowntime } from "@/app/actions";
 
 const formSchema = z.object({
-  host: z.string({
-    required_error: "Host must be selected.",
-  }),
-  status: z.string({
-    required_error: "Status code must be selected.",
-  }),
+  host: z.string().min(1, "Host must be selected."),
+  status: z.string().min(1, "Status code must be selected."),
   duration: z.coerce
     .number({
-      required_error: "Duration is required",
+      message: "Duration is required",
     })
-    .nonnegative()
-    .lte(3600),
+    .nonnegative("Duration must be positive")
+    .lte(3600, "Duration must be less than 3600 seconds"),
 });
+
+type FormData = z.infer<typeof formSchema>;
 
 export function SimulatorForm() {
   const hosts = process.env.NEXT_PUBLIC_DOWNTIME_SIMULATOR_HOSTS?.split(",");
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      host: hosts?.[0],
+      host: hosts?.[0] || "",
       status: "500",
       duration: 60,
     },
@@ -58,7 +56,7 @@ export function SimulatorForm() {
     formState: { errors, isSubmitting, isDirty, isValid },
   } = form;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData) {
     console.log(values);
 
     try {

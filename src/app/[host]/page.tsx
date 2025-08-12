@@ -12,7 +12,8 @@ async function queryPosts() {
   return posts;
 }
 
-const Page = async ({ params: { host } }: { params: { host: string } }) => {
+const Page = async ({ params }: { params: Promise<{ host: string }> }) => {
+  const { host } = await params;
   const hostStatus: number | null = await kv.get(`host-status:${host}`);
 
   if (hostStatus === 404) {
