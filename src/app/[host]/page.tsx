@@ -3,6 +3,7 @@ import { kv } from "@vercel/kv";
 import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
+import * as Sentry from "@sentry/nextjs";
 
 async function queryPosts() {
   const prisma = new PrismaClient();
@@ -20,7 +21,13 @@ const Page = async ({ params }: { params: Promise<{ host: string }> }) => {
   }
 
   if (hostStatus === 500) {
-    await queryPosts();
+    try {
+      await queryPosts();
+    } catch (error) {
+      throw error;
+    } finally {
+      await Sentry.flush();
+    }
   }
 
   return (
