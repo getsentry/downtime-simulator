@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { kv } from "@vercel/kv";
 import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
